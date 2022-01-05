@@ -61,4 +61,8 @@ public class ImobiliariaService {
         }
         return comodos;
     }
+    public Prop casaNova(Prop prop){
+        imobiliariaRepository.casaNova(prop);
+        return prop;
+    }
 }
