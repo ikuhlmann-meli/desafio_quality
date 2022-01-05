@@ -1,8 +1,8 @@
 package grupo11.imobiliaria.services;
 
 import grupo11.imobiliaria.ImobiliariaDTO.ComodoDTO;
-import grupo11.imobiliaria.entity.Casa;
-import grupo11.imobiliaria.entity.Comodo;
+import grupo11.imobiliaria.entity.Prop;
+import grupo11.imobiliaria.entity.Room;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,49 +12,49 @@ import java.util.List;
 @Service
 public class ImobiliariaService {
 
-    private  Comodo com1 = Comodo.builder().nome("cozinha").largura(3f).comprimento(5f).build();
-    private  Comodo com2 = Comodo.builder().nome("sala").largura(5f).comprimento(6f).build();
-    private  List<Comodo> comodos = Arrays.asList(com1, com2);
+    private Room com1 = Room.builder().room_name("cozinha").room_width(3d).room_length(5d).build();
+    private Room com2 = Room.builder().room_name("sala").room_width(5d).room_length(6d).build();
+    private  List<Room> rooms = Arrays.asList(com1, com2);
 
-    private Casa casaTeste = Casa.builder()
-            .nome("casaTeste")
-            .endereco("Rua dos bobos numero 0")
-            .comodos(Arrays.asList(
-                    Comodo.builder()
-                            .nome("quarto")
-                            .largura(5f)
-                            .comprimento(4f)
+    private Prop propTeste = Prop.builder()
+            .prop_name("casaTeste")
+            .prop_district("Rua dos bobos numero 0")
+            .prop_rooms(Arrays.asList(
+                    Room.builder()
+                            .room_name("quarto")
+                            .room_width(5d)
+                            .room_length(4d)
                             .build(),
-                    Comodo.builder()
-                            .nome("banheiro")
-                            .largura(3f)
-                            .comprimento(2f)
+                    Room.builder()
+                            .room_name("banheiro")
+                            .room_width(3d)
+                            .room_length(2d)
                             .build())).build();
 
 
-    private  List<Casa> casas = Arrays.asList(
-            Casa.builder()
-                    .nome("maurosHouse")
-                    .endereco("Rua Tal, numero 0")
-                    .comodos(comodos).build(),
-            Casa.builder()
-                    .nome("iberesHouse")
-                    .endereco("Rua dos bobos numero 0")
-                    .comodos(Arrays.asList(
-                            Comodo.builder()
-                                    .nome("quarto")
-                                    .largura(5f)
-                                    .comprimento(4f)
+    private  List<Prop> props = Arrays.asList(
+            Prop.builder()
+                    .prop_name("maurosHouse")
+                    .prop_district("Rua Tal, numero 0")
+                    .prop_rooms(rooms).build(),
+            Prop.builder()
+                    .prop_name("iberesHouse")
+                    .prop_district("Rua dos bobos numero 0")
+                    .prop_rooms(Arrays.asList(
+                            Room.builder()
+                                    .room_name("quarto")
+                                    .room_width(5d)
+                                    .room_length(4d)
                                     .build(),
-                            Comodo.builder()
-                                    .nome("banheiro")
-                                    .largura(3f)
-                                    .comprimento(2f)
+                            Room.builder()
+                                    .room_name("banheiro")
+                                    .room_width(3d)
+                                    .room_length(2d)
                                     .build()))
                     .build());
 
     public String valor(String casa){
-        Float valorCasa = area(casa) * 800;
+        Double valorCasa = area(casa) * 800;
         return "O valor da casa " + casa + " é de R$ " + valorCasa;
     }
 
@@ -71,9 +71,9 @@ public class ImobiliariaService {
         return maior;
     }
 
-    public Float area(String casa){
+    public Double area(String casa){
         List<ComodoDTO> comodos = areaComodos(casa);
-        Float areaTotal = 0f;
+        Double areaTotal = 0d;
 
         for (int i = 0; i < comodos.size(); i++){
             areaTotal += comodos.get(i).getArea();
@@ -84,10 +84,10 @@ public class ImobiliariaService {
 
     public List<ComodoDTO> areaComodos(String casa){
         List<ComodoDTO> comodos = new ArrayList<>();
-        for (int i = 0; i < casas.size(); i++){
-            if (casa.equals(casas.get(i).getNome())){
-                for (int j = 0; j < casas.get(i).getComodos().size(); j++){
-                    comodos.add(ComodoDTO.converte(casas.get(i).getComodos().get(j)));
+        for (int i = 0; i < props.size(); i++){
+            if (casa.equals(props.get(i).getProp_name())){
+                for (int j = 0; j < props.get(i).getProp_rooms().size(); j++){
+                    comodos.add(ComodoDTO.converte(props.get(i).getProp_rooms().get(j)));
                 }
             }
         }

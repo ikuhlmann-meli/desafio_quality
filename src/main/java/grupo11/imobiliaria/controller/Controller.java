@@ -16,7 +16,7 @@ public class Controller {
     private ImobiliariaService service;
 
     @GetMapping("/area/{nomeDaCasa}")
-    public Float area(@PathVariable String nomeDaCasa) {
+    public Double area(@PathVariable String nomeDaCasa) {
         return service.area(nomeDaCasa);
     }
 
