@@ -17,14 +17,14 @@ public class Room {
 
     @NotEmpty(message = "O campo não pode estar vazio")
     @NotNull(message = "O campo não pode estar vazio")
-    private String room_name;
+    private String name;
 
     @NotEmpty
     @NotNull
     @Digits(integer = 28, fraction = 2, message = "O comprimento do cômodo não pode exceder 30 caracteres.")
-    private Double room_width;
+    private Double width;
 
     @NotEmpty(message = "O campo não pode estar vazio")
     @NotNull(message = "O campo não pode estar vazio")
-    private Double room_length;
+    private Double length;
 }

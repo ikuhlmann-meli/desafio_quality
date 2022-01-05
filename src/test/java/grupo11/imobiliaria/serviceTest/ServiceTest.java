@@ -1,17 +1,16 @@
 package grupo11.imobiliaria.serviceTest;
 
-import grupo11.imobiliaria.ImobiliariaDTO.ComodoDTO;
+import grupo11.imobiliaria.DTO.RoomDTO;
 import grupo11.imobiliaria.entity.District;
-import grupo11.imobiliaria.entity.Prop;
+import grupo11.imobiliaria.entity.Property;
 import grupo11.imobiliaria.entity.Room;
 import grupo11.imobiliaria.exceptions.BusinessException;
-import grupo11.imobiliaria.repository.ImobiliariaRepository;
-import grupo11.imobiliaria.services.ImobiliariaService;
+import grupo11.imobiliaria.repository.PropertiesRepository;
+import grupo11.imobiliaria.services.PropertiesService;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,28 +20,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTest {
 
+    private List<Property> mockedPropertiesList(){
+        Room room1 = Room.builder().name("cozinha").width(3d).length(5d).build();
+        Room room2 = Room.builder().name("sala").width(5d).length(6d).build();
+        District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
+        Property prop1 = Property.builder()
+                .name("casa1")
+                .district(district1)
+                .rooms(Arrays.asList(room1, room2)).build();
+
+        List<Property> propertiesList = new ArrayList<Property>();
+        propertiesList.add(prop1);
+
+        return propertiesList;
+    }
+
     @Test
     public void deveCalcularOsMetrosQuadrados(){
+
         //arrange
-        Room room1 = Room.builder().room_name("cozinha").room_width(3d).room_length(5d).build();
-        Room room2 = Room.builder().room_name("sala").room_width(5d).room_length(6d).build();
-
-        District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
-
-        Prop prop1 = Prop.builder()
-                .prop_name("casa1")
-                .prop_district(district1)
-                .prop_rooms(Arrays.asList(room1, room2)).build();
-
-        List<Prop> propList = new ArrayList<Prop>();
-        propList.add(prop1);
-
-        ImobiliariaRepository mock = Mockito.mock(ImobiliariaRepository.class);
-        Mockito.when(mock.getPropertiesList()).thenReturn(propList);
-        ImobiliariaService propService = new ImobiliariaService(mock);
+        PropertiesRepository mock = Mockito.mock(PropertiesRepository.class);
+        Mockito.when(mock.getPropertiesList()).thenReturn(mockedPropertiesList());
+        PropertiesService propertyService = new PropertiesService(mock);
 
         //act
-        Double total = propService.area("casa1");
+        Double total = propertyService.area("casa1");
 
         //assertion
         assertEquals(total, 45);
@@ -51,30 +53,18 @@ public class ServiceTest {
     @Test
     public void deveLancarExececaoAoCadastrarCasaComBairroInexistente(){
 
-        District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
         District district2 = new District("Bairro Ipiranga", new BigDecimal(200));
+        List<District> districts = new ArrayList<District>();
+        districts.add(district2);
 
-        List<District> dist = new ArrayList<District>();
-
-        dist.add(district1);
-
-        Room room1 = Room.builder().room_name("cozinha").room_width(3d).room_length(5d).build();
-        Room room2 = Room.builder().room_name("sala").room_width(5d).room_length(6d).build();
-
-        Prop prop1 = Prop.builder()
-                .prop_name("casa1")
-                .prop_district(district2)
-                .prop_rooms(Arrays.asList(room1, room2)).build();
-
-        ImobiliariaRepository mock = Mockito.mock(ImobiliariaRepository.class);
-        Mockito.when(mock.getDistrictList()).thenReturn(dist);
-        ImobiliariaService propService = new ImobiliariaService(mock);
+        PropertiesRepository mock = Mockito.mock(PropertiesRepository.class);
+        Mockito.when(mock.getDistrictList()).thenReturn(districts);
+        PropertiesService propService = new PropertiesService(mock);
 
          //act
          BusinessException excecaoEsperada = assertThrows(
                 BusinessException.class,
-                () -> propService.casaNova(prop1)
-        );
+                () -> propService.newProperty(mockedPropertiesList().get(0)));
 
         //assertion
         assertTrue(excecaoEsperada.getMessage().contains("Não é permito cadastro de casas em bairros não registrados"));
@@ -84,96 +74,52 @@ public class ServiceTest {
     public void deveCadastrarCasaComBairroPreExistente(){
 
         District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
+        List<District> districts = new ArrayList<District>();
+        districts.add(district1);
 
-        List<District> dist = new ArrayList<District>();
-
-        dist.add(district1);
-
-        Room room1 = Room.builder().room_name("cozinha").room_width(3d).room_length(5d).build();
-        Room room2 = Room.builder().room_name("sala").room_width(5d).room_length(6d).build();
-
-        Prop prop1 = Prop.builder()
-                .prop_name("casa1")
-                .prop_district(district1)
-                .prop_rooms(Arrays.asList(room1, room2)).build();
-
-        ImobiliariaRepository mock = Mockito.mock(ImobiliariaRepository.class);
-        Mockito.when(mock.getDistrictList()).thenReturn(dist);
-        ImobiliariaService propService = new ImobiliariaService(mock);
+        Property prop1 = mockedPropertiesList().get(0);
+        PropertiesRepository mock = Mockito.mock(PropertiesRepository.class);
+        Mockito.when(mock.getDistrictList()).thenReturn(districts);
+        PropertiesService propService = new PropertiesService(mock);
 
         //act
-        Prop p = propService.casaNova(prop1);
+        Property p = propService.newProperty(prop1);
 
         //assertion
         assertTrue(p.equals(prop1));
     }
 
     @Test
-    public void verificaSeMaiorComoFoiDevolvido(){
-        District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
+    public void verificaSeMaiorComodoFoiDevolvido(){
+        List<Property> properties = mockedPropertiesList();
 
-        List<District> dist = new ArrayList<District>();
-
-        dist.add(district1);
-
-        Room room1 = Room.builder().room_name("cozinha").room_width(3d).room_length(5d).build();
-        Room room2 = Room.builder().room_name("sala").room_width(5d).room_length(6d).build();
-
-        Prop prop1 = Prop.builder()
-                .prop_name("casa1")
-                .prop_district(district1)
-                .prop_rooms(Arrays.asList(room1, room2)).build();
-
-        List<Prop> p = new ArrayList<Prop>();
-        p.add(prop1);
-
-        ImobiliariaRepository mock = Mockito.mock(ImobiliariaRepository.class);
-        Mockito.when(mock.getPropertiesList()).thenReturn(p);
-        ImobiliariaService propService = new ImobiliariaService(mock);
+        PropertiesRepository mock = Mockito.mock(PropertiesRepository.class);
+        Mockito.when(mock.getPropertiesList()).thenReturn(properties);
+        PropertiesService propService = new PropertiesService(mock);
 
         //act
-        String biggestRoom = propService.maiorComodo(prop1.getProp_name());
+        String biggestRoom = propService.biggestRoom(properties.get(0).getName());
 
         //assert
-        assertEquals(biggestRoom, room2.getRoom_name());
+        assertEquals(biggestRoom, properties.get(0).getRooms().get(1).getName());
     }
 
     @Test
-    public void verificaSeTotalM2Retorna(){
-        District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
+    public void verificaSeRetornaTotalM2(){
+        List<Property> properties = mockedPropertiesList();
+        Property property = properties.get(0);
 
-        List<District> dist = new ArrayList<District>();
-        List<ComodoDTO> dto = new ArrayList<ComodoDTO>();
-
-        dist.add(district1);
-
-        Room room1 = Room.builder().room_name("cozinha").room_width(3d).room_length(5d).build();
-        Room room2 = Room.builder().room_name("sala").room_width(5d).room_length(6d).build();
-
-        Prop prop1 = Prop.builder()
-                .prop_name("casa1")
-                .prop_district(district1)
-                .prop_rooms(Arrays.asList(room1, room2)).build();
-
-        List<Prop> p = new ArrayList<Prop>();
-        p.add(prop1);
-        dto.add(ComodoDTO.converte(room1));
-        dto.add(ComodoDTO.converte(room2));
-        ImobiliariaRepository mock = Mockito.mock(ImobiliariaRepository.class);
-        Mockito.when(mock.getPropertiesList()).thenReturn(p);
-        ImobiliariaService propService = new ImobiliariaService(mock);
+        PropertiesRepository mock = Mockito.mock(PropertiesRepository.class);
+        Mockito.when(mock.getPropertiesList()).thenReturn(properties);
+        PropertiesService propService = new PropertiesService(mock);
 
         //act
-        List<ComodoDTO> listComodos = propService.areaComodos(prop1.getProp_name());
-
-
+        List<RoomDTO> listComodos = propService.roomAreas(property.getName());
 
         //assert
         for (int i=0; i < listComodos.size(); i+=1) {
-            Double area = prop1.getProp_rooms().get(i).getRoom_length() * prop1.getProp_rooms().get(i).getRoom_width();
+            Double area = property.getRooms().get(i).getLength() * property.getRooms().get(i).getWidth();
             assertEquals(listComodos.get(i).getArea(), area);
         }
-
     }
-
 }
