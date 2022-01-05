@@ -4,6 +4,7 @@ import grupo11.imobiliaria.DTO.RoomDTO;
 import grupo11.imobiliaria.entity.Property;
 import grupo11.imobiliaria.services.PropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,28 +17,29 @@ public class Controller {
     private PropertiesService service;
 
     @GetMapping("/area/{nomeDaCasa}")
-    public Double area(@PathVariable String nomeDaCasa) {
-        return service.area(nomeDaCasa);
+    public ResponseEntity<Double> area(@PathVariable String nomeDaCasa) {
+        return ResponseEntity.status(200).body(service.area(nomeDaCasa));
     }
 
     @GetMapping("/valor/{nomeDaCasa}")
-    public String value(@PathVariable String nomeDaCasa) {
-        return service.value(nomeDaCasa);
+    public ResponseEntity<String> value(@PathVariable String nomeDaCasa) {
+        
+        return ResponseEntity.status(200).body(service.value(nomeDaCasa));
     }
 
     @GetMapping("/maiorComodo/{nomeDaCasa}")
-    public String biggestRoom(@PathVariable String nomeDaCasa) {
-        return service.biggestRoom(nomeDaCasa);
+    public ResponseEntity<String> biggestRoom(@PathVariable String nomeDaCasa) {
+        return ResponseEntity.status(200).body(service.biggestRoom(nomeDaCasa));
     }
 
     @GetMapping("/areaComodos/{nomeDaCasa}")
-    public List<RoomDTO> roomAreas(@PathVariable String nomeDaCasa) {
-        return service.roomAreas(nomeDaCasa);
+    public ResponseEntity<List<RoomDTO>> roomAreas(@PathVariable String nomeDaCasa) {
+        return ResponseEntity.status(200).body(service.roomAreas(nomeDaCasa));
     }
 
     @PostMapping("/prop/")
-    public Property newProperties (@Valid @RequestBody Property property){
+    public ResponseEntity<Property> newProperties (@Valid @RequestBody Property property){
         service.newProperty(property);
-        return property;
+        return ResponseEntity.status(201).body(property);
     }
 }
