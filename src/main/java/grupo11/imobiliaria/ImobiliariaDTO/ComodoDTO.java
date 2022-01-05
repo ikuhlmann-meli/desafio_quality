@@ -15,7 +15,8 @@ public class ComodoDTO {
      return ComodoDTO
              .builder()
              .nome(room.getRoom_name())
-             .area(room.getRoom_width() * room.getRoom_length()).build();
+             .area(room.getRoom_width() * room.getRoom_length())
+             .build();
     }
 
 }
