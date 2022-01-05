@@ -15,18 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-public class Prop {
+public class Property {
 
     @NotNull(message = "O nome não pode estar vazio.")
     @NotEmpty(message = "O nome não pode estar vazio.")
     @Pattern(regexp = "^([A-Z]{1})([a-z0-9]{1,})$")
-    private String prop_name;
+    private String name;
 
     @Valid
-    private District prop_district;
+    private District district;
 
     @NotNull(message = "Os comodos não podem estar vazio.")
     @NotEmpty(message = "Os comodos não podem estar vazio.")
-    private List<Room> prop_rooms;
+    private List<Room> rooms;
 
 }
