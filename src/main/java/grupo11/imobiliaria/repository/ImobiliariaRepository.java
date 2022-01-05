@@ -28,6 +28,10 @@ public class ImobiliariaRepository {
         this.propertiesList.add(prop1);
         this.propertiesList.add(prop2);
         this.propertiesList.add(prop3);
+
+        this.districtsList.add(district1);
+        this.districtsList.add(district2);
+        this.districtsList.add(district3);
     }
 
     private Prop prop1 = Prop.builder()
@@ -56,7 +60,14 @@ public class ImobiliariaRepository {
     }
     public Prop casaNova(Prop prop){
         System.out.println(prop);
+
         propertiesList.add(prop);
         return prop;
+    }
+
+    private List<District> districtsList = new ArrayList<District>();
+
+    public List<District> getDistrictList() {
+        return districtsList;
     }
 }

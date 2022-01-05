@@ -1,8 +1,10 @@
 package grupo11.imobiliaria.services;
 
 import grupo11.imobiliaria.ImobiliariaDTO.ComodoDTO;
+import grupo11.imobiliaria.entity.District;
 import grupo11.imobiliaria.entity.Prop;
 import grupo11.imobiliaria.entity.Room;
+import grupo11.imobiliaria.exceptions.BusinessException;
 import grupo11.imobiliaria.repository.ImobiliariaRepository;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +64,13 @@ public class ImobiliariaService {
         return comodos;
     }
     public Prop casaNova(Prop prop){
-        imobiliariaRepository.casaNova(prop);
-        return prop;
+        for (District d: imobiliariaRepository.getDistrictList()) {
+            if(d.equals(prop.getProp_district())){
+                imobiliariaRepository.casaNova(prop);
+                return prop;
+            }
+        } throw new BusinessException("Não é permito cadastro de casas em bairros não registrados");
     }
+
+
 }
