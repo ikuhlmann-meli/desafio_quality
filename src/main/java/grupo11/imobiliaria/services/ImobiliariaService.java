@@ -3,6 +3,7 @@ package grupo11.imobiliaria.services;
 import grupo11.imobiliaria.ImobiliariaDTO.ComodoDTO;
 import grupo11.imobiliaria.entity.Prop;
 import grupo11.imobiliaria.entity.Room;
+import grupo11.imobiliaria.repository.ImobiliariaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,46 +13,13 @@ import java.util.List;
 @Service
 public class ImobiliariaService {
 
-    private Room com1 = Room.builder().room_name("cozinha").room_width(3d).room_length(5d).build();
-    private Room com2 = Room.builder().room_name("sala").room_width(5d).room_length(6d).build();
-    private  List<Room> rooms = Arrays.asList(com1, com2);
+    ImobiliariaRepository imobiliariaRepository;
+    List<Prop> props;
 
-    private Prop propTeste = Prop.builder()
-            .prop_name("casaTeste")
-            .prop_district("Rua dos bobos numero 0")
-            .prop_rooms(Arrays.asList(
-                    Room.builder()
-                            .room_name("quarto")
-                            .room_width(5d)
-                            .room_length(4d)
-                            .build(),
-                    Room.builder()
-                            .room_name("banheiro")
-                            .room_width(3d)
-                            .room_length(2d)
-                            .build())).build();
-
-
-    private  List<Prop> props = Arrays.asList(
-            Prop.builder()
-                    .prop_name("maurosHouse")
-                    .prop_district("Rua Tal, numero 0")
-                    .prop_rooms(rooms).build(),
-            Prop.builder()
-                    .prop_name("iberesHouse")
-                    .prop_district("Rua dos bobos numero 0")
-                    .prop_rooms(Arrays.asList(
-                            Room.builder()
-                                    .room_name("quarto")
-                                    .room_width(5d)
-                                    .room_length(4d)
-                                    .build(),
-                            Room.builder()
-                                    .room_name("banheiro")
-                                    .room_width(3d)
-                                    .room_length(2d)
-                                    .build()))
-                    .build());
+    public ImobiliariaService(ImobiliariaRepository imobiliariaRepository) {
+        this.imobiliariaRepository = imobiliariaRepository;
+        this.props = imobiliariaRepository.getPropertiesList();
+    }
 
     public String valor(String casa){
         Double valorCasa = area(casa) * 800;
