@@ -1,8 +1,8 @@
 package grupo11.imobiliaria.controller;
 
-import grupo11.imobiliaria.ImobiliariaDTO.ComodoDTO;
-import grupo11.imobiliaria.entity.Prop;
-import grupo11.imobiliaria.services.ImobiliariaService;
+import grupo11.imobiliaria.DTO.RoomDTO;
+import grupo11.imobiliaria.entity.Property;
+import grupo11.imobiliaria.services.PropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class Controller {
 
     @Autowired
-    private ImobiliariaService service;
+    private PropertiesService service;
 
     @GetMapping("/area/{nomeDaCasa}")
     public Double area(@PathVariable String nomeDaCasa) {
@@ -21,23 +21,23 @@ public class Controller {
     }
 
     @GetMapping("/valor/{nomeDaCasa}")
-    public String valor(@PathVariable String nomeDaCasa) {
-        return service.valor(nomeDaCasa);
+    public String value(@PathVariable String nomeDaCasa) {
+        return service.value(nomeDaCasa);
     }
 
     @GetMapping("/maiorComodo/{nomeDaCasa}")
-    public String maiorComodo(@PathVariable String nomeDaCasa) {
-        return service.maiorComodo(nomeDaCasa);
+    public String biggestRoom(@PathVariable String nomeDaCasa) {
+        return service.biggestRoom(nomeDaCasa);
     }
 
     @GetMapping("/areaComodos/{nomeDaCasa}")
-    public List<ComodoDTO> areaComodos(@PathVariable String nomeDaCasa) {
-        return service.areaComodos(nomeDaCasa);
+    public List<RoomDTO> roomAreas(@PathVariable String nomeDaCasa) {
+        return service.roomAreas(nomeDaCasa);
     }
 
     @PostMapping("/prop/")
-    public Prop newProperties (@Valid @RequestBody Prop property){
-        service.casaNova(property);
+    public Property newProperties (@Valid @RequestBody Property property){
+        service.newProperty(property);
         return property;
     }
 }
