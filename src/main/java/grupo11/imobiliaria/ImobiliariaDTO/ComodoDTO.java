@@ -1,6 +1,6 @@
 package grupo11.imobiliaria.ImobiliariaDTO;
 
-import grupo11.imobiliaria.entity.Comodo;
+import grupo11.imobiliaria.entity.Room;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,13 +9,13 @@ import lombok.Data;
 public class ComodoDTO {
 
     private String nome;
-    private Float area;
+    private Double area;
 
-    public static ComodoDTO converte(Comodo comodo){
+    public static ComodoDTO converte(Room room){
      return ComodoDTO
              .builder()
-             .nome(comodo.getNome())
-             .area(comodo.getLargura() * comodo.getComprimento()).build();
+             .nome(room.getRoom_name())
+             .area(room.getRoom_width() * room.getRoom_length()).build();
     }
 
 }
