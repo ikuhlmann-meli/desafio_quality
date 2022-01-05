@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -18,12 +19,11 @@ public class Prop {
 
     @NotNull(message = "O nome não pode estar vazio.")
     @NotEmpty(message = "O nome não pode estar vazio.")
-    @Pattern(regexp = "^[A-Z]", message = "O nome deve comecar com uma letra maiúscula")
+    @Pattern(regexp = "^([A-Z]{1})([a-z0-9]{1,})$")
     private String prop_name;
 
-    @NotNull(message = "O bairro nao pode estar")
-    @NotEmpty(message = "O bairro não pode estar vazio.")
-    private String prop_district;
+    @Valid
+    private District prop_district;
 
     @NotNull(message = "Os comodos não podem estar vazio.")
     @NotEmpty(message = "Os comodos não podem estar vazio.")
