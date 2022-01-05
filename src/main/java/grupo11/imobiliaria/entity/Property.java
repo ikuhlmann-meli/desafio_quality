@@ -17,14 +17,15 @@ import java.util.List;
 @Builder
 public class Property {
 
-    @NotNull(message = "O nome não pode estar vazio.")
-    @NotEmpty(message = "O nome não pode estar vazio.")
-    @Pattern(regexp = "^([A-Z]{1})([a-z0-9]{1,})$")
+    @NotNull(message = "O campo nome não pode estar vazio.")
+    @NotEmpty(message = "O campo nome não pode estar vazio.")
+    @Pattern(regexp = "^([A-Z]{1})([a-z0-9]{1,})$", message = "Nome deve comecar com letra maiuscula")
     private String name;
 
     @Valid
     private District district;
 
+    @Valid
     @NotNull(message = "Os comodos não podem estar vazio.")
     @NotEmpty(message = "Os comodos não podem estar vazio.")
     private List<Room> rooms;
