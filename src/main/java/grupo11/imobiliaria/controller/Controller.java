@@ -37,7 +37,7 @@ public class Controller {
 
     @PostMapping("/prop/")
     public Prop newProperties (@Valid @RequestBody Prop property){
-
+        service.casaNova(property);
         return property;
     }
 }
