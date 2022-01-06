@@ -8,6 +8,7 @@ import grupo11.imobiliaria.exceptions.NotFoundException;
 import grupo11.imobiliaria.repository.PropertiesRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,17 @@ public class PropertiesService {
     }
 
     public String value(String property){
-        Double propertyValue = area(property) * 800;
+
+        BigDecimal propertyValue = getProperty(property).getDistrict().getSquaredMeterValue().multiply(new BigDecimal(area(property)));
         return "O valor do imóvel " + property + " é de R$ " + propertyValue;
+    }
+
+    private Property getProperty(String property){
+        for (int i = 0; i < props.size(); i++){
+            if (property.equals(props.get(i).getName())){
+                return props.get(i);
+            }
+        } throw new NotFoundException("A propriedade " + property + " não existe");
     }
 
     public String biggestRoom(String property){
@@ -51,16 +61,12 @@ public class PropertiesService {
         return totalArea;
     }
 
-    public List<RoomDTO> roomAreas(String property){
+    public List<RoomDTO> roomAreas(String p){
         List<RoomDTO> rooms = new ArrayList<>();
-        for (int i = 0; i < props.size(); i++){
-            if (property.equals(props.get(i).getName())){
-                for (int j = 0; j < props.get(i).getRooms().size(); j++){
-                    rooms.add(RoomDTO.convert(props.get(i).getRooms().get(j)));
-                }
-            }
+        Property property = getProperty(p);
+                for (int j = 0; j < property.getRooms().size(); j++){
+                    rooms.add(RoomDTO.convert(property.getRooms().get(j)));
         }
-        if (rooms.size() == 0) throw new NotFoundException("A propriedade " + property + " não existe");
         return rooms;
     }
     public Property newProperty(Property property){

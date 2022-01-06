@@ -51,6 +51,21 @@ public class ServiceTest {
     }
 
     @Test
+    public void deveCalcularValorDoImovel(){
+
+        //arrange
+        PropertiesRepository mock = Mockito.mock(PropertiesRepository.class);
+        Mockito.when(mock.getPropertiesList()).thenReturn(mockedPropertiesList());
+        PropertiesService propertyService = new PropertiesService(mock);
+
+        //act
+        String value = propertyService.value("casa1");
+
+        //assertion
+        assertEquals("O valor do imóvel casa1 é de R$ 9000", value);
+    }
+
+    @Test
     public void deveLancarExececaoAoCadastrarCasaComBairroInexistente(){
 
         District district2 = new District("Bairro Ipiranga", new BigDecimal(200));
@@ -105,7 +120,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void verificaSeRetornaTotalM2(){
+    public void verificaSeRetornaAreaPorComodo(){
         List<Property> properties = mockedPropertiesList();
         Property property = properties.get(0);
 
