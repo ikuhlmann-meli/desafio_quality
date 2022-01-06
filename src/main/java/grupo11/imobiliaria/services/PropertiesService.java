@@ -111,8 +111,6 @@ public class PropertiesService {
      */
     public Property newProperty(Property property){
         for (District d: propertiesRepository.getDistrictList()) {
-            System.out.println(property);
-            System.out.println(d);
             if(d.equals(property.getDistrict())){
                 propertiesRepository.newProperty(property);
                 return property;

@@ -24,7 +24,6 @@ public class PropertiesRepository {
     private District district2 = new District("Centro", new BigDecimal(String.valueOf(300)));
     private District district3 = new District("Bairro do Abacateiro", new BigDecimal(String.valueOf(40000000000.11)));
 
-
     public PropertiesRepository() {
         this.propertiesList.add(prop1);
         this.propertiesList.add(prop2);
