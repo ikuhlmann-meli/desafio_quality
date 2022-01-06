@@ -37,7 +37,7 @@ public class Controller {
         return ResponseEntity.status(200).body(service.roomAreas(nomeDaCasa));
     }
 
-    @PostMapping("/prop/")
+    @PostMapping("/prop")
     public ResponseEntity<Property> newProperties (@Valid @RequestBody Property property){
         service.newProperty(property);
         return ResponseEntity.status(201).body(property);
