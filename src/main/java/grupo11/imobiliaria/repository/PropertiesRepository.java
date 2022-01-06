@@ -20,9 +20,10 @@ public class PropertiesRepository {
     private Room room5 = Room.builder().name("banheiro").width(2d).length(2d).build();
     private Room room6 = Room.builder().name("sala de jantar").width(5d).length(6d).build();
 
-    private District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
-    private District district2 = new District("Centro", new BigDecimal(300));
-    private District district3 = new District("Bairro do Abacateiro", new BigDecimal(400));
+    private District district1 = new District("Bairro do Limoeiro", new BigDecimal(String.valueOf(200)));
+    private District district2 = new District("Centro", new BigDecimal(String.valueOf(300)));
+    private District district3 = new District("Bairro do Abacateiro", new BigDecimal(String.valueOf(40000000000.11)));
+
 
     public PropertiesRepository() {
         this.propertiesList.add(prop1);

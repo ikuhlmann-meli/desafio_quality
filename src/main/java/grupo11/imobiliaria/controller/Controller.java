@@ -39,6 +39,7 @@ public class Controller {
 
     @PostMapping("/prop")
     public ResponseEntity<Property> newProperties (@Valid @RequestBody Property property){
+        //System.out.println(property);
         service.newProperty(property);
         return ResponseEntity.status(201).body(property);
     }
