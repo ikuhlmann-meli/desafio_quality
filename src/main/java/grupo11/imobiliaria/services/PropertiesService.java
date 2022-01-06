@@ -45,15 +45,17 @@ public class PropertiesService {
 
     /**
      * Retorna um objeto property
-     * @param property Uma String com o nome da propriedade
+     * @param strProperty Uma String com o nome da propriedade
      * @return
      */
-    private Property getProperty(String property){
-        for (int i = 0; i < props.size(); i++){
-            if (property.equals(props.get(i).getName())){
-                return props.get(i);
-            }
-        } throw new NotFoundException("A propriedade " + property + " não existe");
+    private Property getProperty(String strProperty){
+        Property property = props.stream()
+                .filter(p -> p.getName().equals(strProperty))  // função lambda
+                .findAny().orElse(null);
+
+        if (property != null) return property;
+
+        throw new NotFoundException("A propriedade " + strProperty + " não existe");
     }
 
     /**

@@ -5,6 +5,7 @@ import grupo11.imobiliaria.entity.District;
 import grupo11.imobiliaria.entity.Property;
 import grupo11.imobiliaria.entity.Room;
 import grupo11.imobiliaria.exceptions.BusinessException;
+import grupo11.imobiliaria.exceptions.NotFoundException;
 import grupo11.imobiliaria.repository.PropertiesRepository;
 import grupo11.imobiliaria.services.PropertiesService;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,23 @@ public class ServiceTest {
     }
 
     @Test
+    public void deveRelatarErroAoAcessarRecursoInexistente(){
+
+        //arrange
+        PropertiesRepository mock = Mockito.mock(PropertiesRepository.class);
+        Mockito.when(mock.getPropertiesList()).thenReturn(mockedPropertiesList());
+        PropertiesService propertyService = new PropertiesService(mock);
+
+        //act
+        NotFoundException excecaoEsperada = assertThrows(
+                NotFoundException.class,
+                () -> propertyService.value("casaInexistente"));
+
+        //assertion
+        assertTrue(excecaoEsperada.getMessage().contains("A propriedade casaInexistente não existe"));
+    }
+
+    @Test
     public void deveCalcularValorDoImovel(){
 
         //arrange
@@ -63,6 +81,7 @@ public class ServiceTest {
 
         //assertion
         assertEquals("O valor do imóvel casa1 é de R$ 9000", value);
+
     }
 
     @Test
