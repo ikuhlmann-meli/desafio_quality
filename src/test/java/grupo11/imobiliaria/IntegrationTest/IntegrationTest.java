@@ -35,8 +35,6 @@ public class IntegrationTest {
                         .get("/valor/casa1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
-
-        System.out.println(result.getResponse().getContentAsString());
     }
 
     @Test
@@ -46,8 +44,6 @@ public class IntegrationTest {
                         .get("/maiorComodo/casa1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
-
-        System.out.println(result.getResponse().getContentAsString());
     }
 
     @Test
