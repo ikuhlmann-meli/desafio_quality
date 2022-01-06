@@ -44,3 +44,4 @@ Exemplo de body:
     }
 ```
 
+#### [Collection do Postman com testes integrados](https://github.com/ikuhlmann-meli/desafio_quality/blob/master/meli-W4-DH-Imobiliaria.postman_collection.json)
