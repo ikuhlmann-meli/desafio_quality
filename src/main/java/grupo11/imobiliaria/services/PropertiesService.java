@@ -4,6 +4,7 @@ import grupo11.imobiliaria.DTO.RoomDTO;
 import grupo11.imobiliaria.entity.District;
 import grupo11.imobiliaria.entity.Property;
 import grupo11.imobiliaria.exceptions.BusinessException;
+import grupo11.imobiliaria.exceptions.NotFoundException;
 import grupo11.imobiliaria.repository.PropertiesRepository;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,7 @@ public class PropertiesService {
                 }
             }
         }
+        if (rooms.size() == 0) throw new NotFoundException("A propriedade " + property + " não existe");
         return rooms;
     }
     public Property newProperty(Property property){
