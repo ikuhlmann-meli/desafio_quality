@@ -1,6 +1,7 @@
 package grupo11.imobiliaria.advice;
 
 import grupo11.imobiliaria.exceptions.BusinessException;
+import grupo11.imobiliaria.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -37,11 +38,16 @@ public class PersistenceExceptionAdvice {
 
 
     @ExceptionHandler(value = BusinessException.class)
-    protected ResponseEntity<Object> erroCalculo(BusinessException ex, WebRequest request) {
+    protected ResponseEntity<Object> businessException(BusinessException ex, WebRequest request) {
         String bodyOfResponse = ex.getMessage();
-        return ResponseEntity.badRequest().body(bodyOfResponse);
+        return ResponseEntity.status(400).body(bodyOfResponse);
     }
 
+    @ExceptionHandler(value = NotFoundException.class)
+    protected ResponseEntity<Object> notFoundException(NotFoundException ex, WebRequest request) {
+        String bodyOfResponse = ex.getMessage();
+        return ResponseEntity.status(404).body(bodyOfResponse);
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value=MethodArgumentNotValidException.class)
