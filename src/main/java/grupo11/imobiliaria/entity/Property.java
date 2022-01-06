@@ -30,5 +30,4 @@ public class Property {
     @NotNull(message = "Os comodos não podem estar vazios.")
     @NotEmpty(message = "Os comodos não podem estar vazios.")
     private List<Room> rooms;
-
 }

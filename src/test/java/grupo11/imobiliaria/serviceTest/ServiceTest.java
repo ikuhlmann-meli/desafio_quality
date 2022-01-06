@@ -66,9 +66,9 @@ public class ServiceTest {
     }
 
     @Test
-    public void deveLancarExececaoAoCadastrarCasaComBairroInexistente(){
+    public void deveLancarExececaoAoCadastrarImovelComBairroInexistente(){
 
-        District district2 = new District("Bairro Ipiranga", new BigDecimal(200));
+        District district2 = new District("Bairro do Ipiranga", new BigDecimal(200));
         List<District> districts = new ArrayList<District>();
         districts.add(district2);
 
@@ -82,11 +82,11 @@ public class ServiceTest {
                 () -> propService.newProperty(mockedPropertiesList().get(0)));
 
         //assertion
-        assertTrue(excecaoEsperada.getMessage().contains("Não é permito cadastro de casas em bairros não registrados"));
+        assertTrue(excecaoEsperada.getMessage().contains("Não é permitido cadastro de casas em bairros não registrados"));
     }
 
     @Test
-    public void deveCadastrarCasaComBairroPreExistente(){
+    public void deveCadastrarImovelComBairroPreExistente(){
 
         District district1 = new District("Bairro do Limoeiro", new BigDecimal(200));
         List<District> districts = new ArrayList<District>();
